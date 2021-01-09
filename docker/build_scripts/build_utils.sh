@@ -44,10 +44,11 @@ function do_cpython_build {
     fi
     local prefix="/opt/_internal/cpython-${py_ver}${dir_suffix}"
     mkdir -p ${prefix}/lib
-    ./configure --prefix=${prefix} --disable-shared $unicode_flags > /dev/null
+    ./configure --prefix=${prefix} --enable-shared $unicode_flags > /dev/null
     make -j2 > /dev/null
     make install > /dev/null
     popd
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:${prefix}/lib
     rm -rf Python-$py_ver
     # Some python's install as bin/python3. Make them available as
     # bin/python.
